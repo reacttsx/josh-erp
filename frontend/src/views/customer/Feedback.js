@@ -17,8 +17,18 @@ import { useGetAllFeedbackQuery } from 'src/redux/services/customer'
 const CustomerFeedback = () => {
   const [modal, setModal] = useState(false)
   const [page, setPage] = useState(1)
-  const feedback = useGetAllFeedbackQuery({ page: page }, { refetchOnMountOrArgChange: true })
+  const { data, refetch, isLoading } = useGetAllFeedbackQuery(
+    { page: page },
+    { refetchOnMountOrArgChange: true },
+  )
   const columns = [
+    {
+      Header: '#',
+      id: 'row',
+      Cell: (row) => {
+        return <div>{parseInt(row.row.id) + 1}</div>
+      },
+    },
     {
       Header: 'Customer name',
       accessor: 'name',
@@ -71,7 +81,7 @@ const CustomerFeedback = () => {
   }
 
   const reloadData = () => {
-    feedback.refetch()
+    refetch()
   }
 
   return (
@@ -83,17 +93,17 @@ const CustomerFeedback = () => {
             <CCardBody>
               <CRow>
                 <CCol xs={12}>
-                  {feedback.isLoading ? (
+                  {isLoading ? (
                     <CSpinner size="sm" color="primary" className="mb-5" />
                   ) : (
                     <Table
-                      list={feedback.data.data}
+                      list={data.data}
                       columns={columns}
-                      pageOffset={feedback.data.current_page - 1}
-                      page={feedback.data.current_page}
-                      pageCount={feedback.data.last_page}
+                      pageOffset={data.current_page - 1}
+                      page={data.current_page}
+                      pageCount={data.last_page}
                       fetchDataFunction={fetchData}
-                      isLoading={feedback.isLoading}
+                      isLoading={isLoading}
                       pageLimit={20}
                       enablePagination={true}
                     />

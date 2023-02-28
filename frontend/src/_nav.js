@@ -24,8 +24,20 @@ const _nav = [
   },
   {
     component: CNavItem,
+    name: 'Advance',
+    to: '/advance',
+    icon: <CIcon icon={cilCash} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
     name: 'Payments',
-    to: '/payment',
+    to: '/payments',
+    icon: <CIcon icon={cilCash} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Purchase',
+    to: '/purchase',
     icon: <CIcon icon={cilCash} customClassName="nav-icon" />,
   },
 ]

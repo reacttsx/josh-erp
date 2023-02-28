@@ -27,8 +27,10 @@ const Table = ({
   const data = useMemo(() => (Array.isArray(list) ? list : []), [list])
   const column = useMemo(() => columns, [columns])
   const [totalColspan, setTotalColspan] = useState(1)
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, footerGroups } =
-    useTable({ columns, data }, useFilters)
+  const { getTableBodyProps, headerGroups, rows, prepareRow, footerGroups } = useTable(
+    { columns, data },
+    useFilters,
+  )
 
   useEffect(() => {
     getTblColspan()
@@ -122,17 +124,15 @@ const Table = ({
             ) : (
               <></>
             )}
-            {isLoading ? (
+            {isLoading && (
               <tr>
                 <td className="text-center" colSpan={totalColspan} style={{ height: '170px' }}>
                   <CSpinner size="sm" color="primary" />
                 </td>
               </tr>
-            ) : (
-              <></>
             )}
           </tbody>
-          {!isLoading && rows.length > 0 ? (
+          {!isLoading && rows.length > 0 && (
             <tfoot>
               {footerGroups.map((group, i) => (
                 <tr {...group.getFooterGroupProps()} key={`index${i}`}>
@@ -141,16 +141,14 @@ const Table = ({
                       column && column.customFooterTdProps ? column.customFooterTdProps : {}
 
                     return (
-                      <td {...column.getFooterProps({ ...customFooterTdProps })} key={`index${j}`}>
-                        {column.render('Footer')}
-                      </td>
+                      <th {...column.getFooterProps({ ...customFooterTdProps })} key={`index${j}`}>
+                        {column.render('Header')}
+                      </th>
                     )
                   })}
                 </tr>
               ))}
             </tfoot>
-          ) : (
-            <></>
           )}
         </CTable>
       </div>

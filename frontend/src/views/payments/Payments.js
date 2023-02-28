@@ -10,14 +10,14 @@ import {
   CRow,
   CSpinner,
 } from '@coreui/react'
-import EnquiryModal from './modal/EnquiryModal'
-import { useGetAllEnquiryQuery } from 'src/redux/services/customer'
 import { Table } from 'src/components'
+import { useGetAllPaymentsQuery } from 'src/redux/services/payments'
+import CreateModal from './modal/CreateModal'
 
-const CustomerEnquiry = () => {
+const Payments = () => {
   const [modal, setModal] = useState(false)
   const [page, setPage] = useState(1)
-  const { data, refetch, isLoading } = useGetAllEnquiryQuery(
+  const { data, refetch, isLoading } = useGetAllPaymentsQuery(
     { page: page },
     { refetchOnMountOrArgChange: true },
   )
@@ -30,58 +30,18 @@ const CustomerEnquiry = () => {
       },
     },
     {
-      Header: 'Customer name',
+      Header: 'Customer',
       accessor: 'name',
       disableFilters: true,
     },
     {
-      Header: 'Contact',
-      accessor: 'contact',
+      Header: 'Amount',
+      accessor: 'amount',
       disableFilters: true,
     },
     {
-      Header: 'E.D.o.D',
-      accessor: 'edod',
-      disableFilters: true,
-    },
-    {
-      Header: 'Mode of enquiry',
-      accessor: 'mode_of_enq',
-      disableFilters: true,
-    },
-    {
-      Header: 'Dealer',
-      accessor: 'dealer',
-      disableFilters: true,
-    },
-    {
-      Header: 'Sales man',
-      accessor: 'sales_man',
-      disableFilters: true,
-    },
-    {
-      Header: 'First call',
-      accessor: 'first_call',
-      disableFilters: true,
-    },
-    {
-      Header: 'Status',
-      accessor: 'first_call_status',
-      disableFilters: true,
-    },
-    {
-      Header: 'Second call',
-      accessor: 'second_call',
-      disableFilters: true,
-    },
-    {
-      Header: 'Status',
-      accessor: 'second_call_status',
-      disableFilters: true,
-    },
-    {
-      Header: 'Remarks',
-      accessor: 'remarks',
+      Header: 'Received on',
+      accessor: 'received_on',
       disableFilters: true,
     },
   ]
@@ -99,7 +59,7 @@ const CustomerEnquiry = () => {
       <CRow>
         <CCol xs>
           <CCard className="mb-4">
-            <CCardHeader>Customer Enquiry</CCardHeader>
+            <CCardHeader>Payments</CCardHeader>
             <CCardBody>
               <CRow>
                 <CCol xs={12}>
@@ -123,15 +83,15 @@ const CustomerEnquiry = () => {
             </CCardBody>
             <CCardFooter>
               <CButton type="button" size="sm" onClick={() => setModal(true)}>
-                Create Customer Enquiry
+                Create Payments
               </CButton>
             </CCardFooter>
           </CCard>
         </CCol>
       </CRow>
-      {modal && <EnquiryModal visible={modal} setVisible={setModal} reloadData={reloadData} />}
+      {modal && <CreateModal visible={modal} setVisible={setModal} reloadData={reloadData} />}
     </>
   )
 }
 
-export default CustomerEnquiry
+export default Payments

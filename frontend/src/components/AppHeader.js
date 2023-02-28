@@ -13,15 +13,15 @@ import { cilMenu } from '@coreui/icons'
 
 import { AppBreadcrumb } from './index'
 import { AppHeaderDropdown } from './header/index'
-import { logo } from 'src/assets/brand/logo'
 import { useLogoutUsersMutation } from 'src/redux/services/users'
 import { toast } from 'react-toastify'
 import { logout } from 'src/redux/feature/userSlice'
 import Spinner from './Spinner'
+import { setSidebar } from 'src/redux/feature/sidebarSlice'
 
 const AppHeader = () => {
   const dispatch = useDispatch()
-  const sidebarShow = useSelector((state) => state.sidebarShow)
+  const { sidebarShow } = useSelector((state) => state.sidebar)
   const [logoutUsers, { isLoading, isError, isSuccess, error }] = useLogoutUsersMutation()
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const AppHeader = () => {
     }
 
     if (isError) {
-      toast.error(error?.data?.messagFCoree || 'Something went wrong. Try again.')
+      toast.error(error?.data?.message || 'Something went wrong. Try again.')
     }
   }, [dispatch, error, isError, isLoading, isSuccess])
 
@@ -44,14 +44,11 @@ const AppHeader = () => {
       {isLoading && <Spinner />}
       <CHeader position="sticky" className="mb-4">
         <CContainer fluid>
-          <CHeaderToggler
-            className="ps-1"
-            onClick={() => dispatch({ type: 'set', sidebarShow: !sidebarShow })}
-          >
+          <CHeaderToggler className="ps-1" onClick={() => dispatch(setSidebar(!sidebarShow))}>
             <CIcon icon={cilMenu} size="lg" />
           </CHeaderToggler>
           <CHeaderBrand className="mx-auto d-md-none" to="/">
-            <CIcon icon={logo} height={48} alt="Logo" />
+            <h3>JOSH TRAVLES</h3>
           </CHeaderBrand>
           <CHeaderNav className="ms-3">
             <AppHeaderDropdown onLogout={onLogout} />
