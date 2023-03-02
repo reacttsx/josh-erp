@@ -17,6 +17,13 @@ export const customerApi = createApi({
     createCustomerEnquiry: builder.mutation({
       query: (payload) => ({ url: APIS.customer.create, method: 'POST', body: payload }),
     }),
+    updateCustomerEnquiry: builder.mutation({
+      query: (payload) => ({
+        url: APIS.customer.update,
+        method: 'PATCH',
+        body: payload,
+      }),
+    }),
     getAllEnquiry: builder.query({
       query: ({ page }) => ({ url: APIS.customer.list, params: { page } }),
     }),
@@ -29,13 +36,22 @@ export const customerApi = createApi({
     getAllFeedback: builder.query({
       query: ({ page }) => ({ url: APIS.customer.listFeedback, params: { page } }),
     }),
+    searchCustomer: builder.query({
+      query: (customerId) => ({ url: `${APIS.customer.search}/${customerId}` }),
+    }),
+    dashboardData: builder.query({
+      query: () => ({ url: `${APIS.customer.dashboard}` }),
+    }),
   }),
 })
 
 export const {
   useCreateCustomerEnquiryMutation,
+  useUpdateCustomerEnquiryMutation,
   useGetAllEnquiryQuery,
   useGetAllCustomerQuery,
   useCreateCustomerFeedbackMutation,
   useGetAllFeedbackQuery,
+  useSearchCustomerQuery,
+  useDashboardDataQuery,
 } = customerApi

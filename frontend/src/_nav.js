@@ -12,13 +12,13 @@ const _nav = [
   },
   {
     component: CNavItem,
-    name: 'Customer Enquiry',
+    name: 'Enquiry',
     to: '/customer-enquiry',
     icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
   },
   {
     component: CNavItem,
-    name: 'Customer Feedback',
+    name: 'Feedback',
     to: '/customer-feedback',
     icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
   },
@@ -39,6 +39,12 @@ const _nav = [
     name: 'Purchase',
     to: '/purchase',
     icon: <CIcon icon={cilCash} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Customer Search',
+    to: '/customer',
+    icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
   },
 ]
 

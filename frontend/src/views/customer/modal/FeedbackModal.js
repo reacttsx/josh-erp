@@ -116,6 +116,7 @@ const FeedbackModal = ({ visible, setVisible, reloadData }) => {
             </CCol>
             <CCol md={6}>
               <CFormInput
+                type="date"
                 name="first"
                 label="First call"
                 onChange={formik.handleChange}
@@ -140,6 +141,7 @@ const FeedbackModal = ({ visible, setVisible, reloadData }) => {
             </CCol>
             <CCol md={6}>
               <CFormInput
+                type="date"
                 name="second"
                 label="Second call"
                 onChange={formik.handleChange}
@@ -164,6 +166,7 @@ const FeedbackModal = ({ visible, setVisible, reloadData }) => {
             </CCol>
             <CCol md={6}>
               <CFormInput
+                type="date"
                 name="third"
                 label="Third call"
                 onChange={formik.handleChange}

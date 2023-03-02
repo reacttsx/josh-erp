@@ -18,11 +18,11 @@ import PropTypes from 'prop-types'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import { toast } from 'react-toastify'
-import { useCreateCustomerEnquiryMutation } from 'src/redux/services/customer'
+import { useUpdateCustomerEnquiryMutation } from 'src/redux/services/customer'
 
-const EnquiryModal = ({ visible, setVisible, reloadData }) => {
-  const [createCustomerEnquiry, { isLoading, isError, isSuccess, error }] =
-    useCreateCustomerEnquiryMutation()
+const EnquiryEditModal = ({ visible, setVisible, editData, setEditData, reloadData }) => {
+  const [updateCustomerEnquiry, { isLoading, isError, isSuccess, error }] =
+    useUpdateCustomerEnquiryMutation()
 
   const EnquirySchema = Yup.object().shape({
     name: Yup.string().required('Required'),
@@ -35,30 +35,31 @@ const EnquiryModal = ({ visible, setVisible, reloadData }) => {
   })
   const formik = useFormik({
     initialValues: {
-      name: '',
-      contact: '',
-      edod: '',
-      mode: '',
-      dealer: '',
-      sales: '',
-      first: '',
-      first_status: '',
-      second: '',
-      second_status: '',
-      remarks: '',
-      finished: false,
-      completed: false,
+      name: editData.name,
+      contact: editData.contact,
+      edod: editData.edod,
+      mode: editData.mode_of_enq,
+      dealer: editData.dealer,
+      sales: editData.sales_man,
+      first: editData.first_call,
+      first_status: editData.first_call_status,
+      second: editData.second_call,
+      second_status: editData.second_call_status,
+      remarks: editData.remarks,
+      finished: parseInt(editData.finished) === 1 ? true : false,
+      completed: parseInt(editData.completed) === 1 ? true : false,
     },
     validationSchema: EnquirySchema,
     onSubmit: async (values) => {
-      await createCustomerEnquiry(values)
+      values['id'] = editData.id
+      await updateCustomerEnquiry(values, editData.id)
     },
   })
 
   useEffect(() => {
     if (isSuccess) {
       reloadData()
-      toast.success('Customer enquiry created successfully')
+      toast.success('Customer enquiry updated successfully')
       setVisible(false)
       formik.resetForm()
     }
@@ -68,15 +69,15 @@ const EnquiryModal = ({ visible, setVisible, reloadData }) => {
     }
   }, [isError, isSuccess])
 
+  const closeModal = () => {
+    setVisible(false)
+    setEditData({})
+  }
+
   return (
-    <CModal
-      visible={visible}
-      onClose={() => setVisible(false)}
-      backdrop="static"
-      alignment="center"
-    >
+    <CModal visible={visible} onClose={closeModal} backdrop="static" alignment="center">
       <CModalHeader>
-        <CModalTitle>Create Customer Enquiry</CModalTitle>
+        <CModalTitle>Update Customer Enquiry</CModalTitle>
       </CModalHeader>
       <CForm onSubmit={formik.handleSubmit}>
         <CModalBody>
@@ -208,7 +209,7 @@ const EnquiryModal = ({ visible, setVisible, reloadData }) => {
               <CFormCheck
                 name="finished"
                 label="Finished"
-                value={true}
+                checked={formik.values.finished}
                 onChange={(e) => formik.setFieldValue('finished', e.target.checked)}
               />
             </CCol>
@@ -216,18 +217,18 @@ const EnquiryModal = ({ visible, setVisible, reloadData }) => {
               <CFormCheck
                 name="completed"
                 label="Completed"
-                value={true}
+                checked={formik.values.completed}
                 onChange={(e) => formik.setFieldValue('completed', e.target.checked)}
               />
             </CCol>
           </div>
         </CModalBody>
         <CModalFooter>
-          <CButton type="button" color="secondary" onClick={() => setVisible(false)}>
+          <CButton type="button" color="secondary" onClick={closeModal}>
             Close
           </CButton>
           <CButton type="submit" color="primary" disabled={isLoading}>
-            {isLoading ? <CSpinner size="sm" color="light" /> : 'Save'}
+            {isLoading ? <CSpinner size="sm" color="light" /> : 'Update'}
           </CButton>
         </CModalFooter>
       </CForm>
@@ -235,10 +236,12 @@ const EnquiryModal = ({ visible, setVisible, reloadData }) => {
   )
 }
 
-EnquiryModal.propTypes = {
+EnquiryEditModal.propTypes = {
   visible: PropTypes.bool.isRequired,
   setVisible: PropTypes.func.isRequired,
+  editData: PropTypes.object.isRequired,
+  setEditData: PropTypes.func.isRequired,
   reloadData: PropTypes.func.isRequired,
 }
 
-export default EnquiryModal
+export default EnquiryEditModal

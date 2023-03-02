@@ -13,10 +13,16 @@ import {
 import EnquiryModal from './modal/EnquiryModal'
 import { useGetAllEnquiryQuery } from 'src/redux/services/customer'
 import { Table } from 'src/components'
+import CIcon from '@coreui/icons-react'
+import { cilCheckCircle, cilXCircle } from '@coreui/icons'
+import { Link } from 'react-router-dom'
+import EnquiryEditModal from './modal/EnquiryEditModal'
 
 const CustomerEnquiry = () => {
   const [modal, setModal] = useState(false)
+  const [modalEdit, setModalEdit] = useState(false)
   const [page, setPage] = useState(1)
+  const [editData, setEditData] = useState({})
   const { data, refetch, isLoading } = useGetAllEnquiryQuery(
     { page: page },
     { refetchOnMountOrArgChange: true },
@@ -63,26 +69,83 @@ const CustomerEnquiry = () => {
       Header: 'First call',
       accessor: 'first_call',
       disableFilters: true,
+      Cell: (row) => {
+        return <div>{row.value ? row.value : 'Not available'}</div>
+      },
     },
     {
       Header: 'Status',
       accessor: 'first_call_status',
       disableFilters: true,
+      Cell: (row) => {
+        return <div>{row.value ? row.value : 'Not available'}</div>
+      },
     },
     {
       Header: 'Second call',
       accessor: 'second_call',
       disableFilters: true,
+      Cell: (row) => {
+        return <div>{row.value ? row.value : 'Not available'}</div>
+      },
     },
     {
       Header: 'Status',
       accessor: 'second_call_status',
       disableFilters: true,
+      Cell: (row) => {
+        return <div>{row.value ? row.value : 'Not available'}</div>
+      },
     },
     {
       Header: 'Remarks',
       accessor: 'remarks',
       disableFilters: true,
+    },
+    {
+      Header: 'Finished',
+      accessor: 'finished',
+      disableFilters: true,
+      Cell: (row) => {
+        return (
+          <div>
+            {parseInt(row.value) === 1 ? (
+              <CIcon icon={cilCheckCircle} size="sm" className="text-success" />
+            ) : (
+              <CIcon icon={cilXCircle} size="sm" className="text-danger" />
+            )}
+          </div>
+        )
+      },
+    },
+    {
+      Header: 'Completed',
+      accessor: 'completed',
+      disableFilters: true,
+      Cell: (row) => {
+        return (
+          <div>
+            {parseInt(row.value) === 1 ? (
+              <CIcon icon={cilCheckCircle} size="sm" className="text-success" />
+            ) : (
+              <CIcon icon={cilXCircle} size="sm" className="text-danger" />
+            )}
+          </div>
+        )
+      },
+    },
+    {
+      Header: 'Edit',
+      id: 'edit',
+      Cell: (row) => {
+        return (
+          <div>
+            <Link to="#" onClick={() => editCustomer(row.data[row.row.id])}>
+              Edit
+            </Link>
+          </div>
+        )
+      },
     },
   ]
 
@@ -92,6 +155,11 @@ const CustomerEnquiry = () => {
 
   const reloadData = () => {
     refetch()
+  }
+
+  const editCustomer = (data) => {
+    setEditData(data)
+    setModalEdit(true)
   }
 
   return (
@@ -129,7 +197,24 @@ const CustomerEnquiry = () => {
           </CCard>
         </CCol>
       </CRow>
-      {modal && <EnquiryModal visible={modal} setVisible={setModal} reloadData={reloadData} />}
+      {modal && (
+        <EnquiryModal
+          visible={modal}
+          setVisible={setModal}
+          editData={editData}
+          setEditData={setEditData}
+          reloadData={reloadData}
+        />
+      )}
+      {modalEdit && (
+        <EnquiryEditModal
+          visible={modalEdit}
+          setVisible={setModalEdit}
+          editData={editData}
+          setEditData={setEditData}
+          reloadData={reloadData}
+        />
+      )}
     </>
   )
 }

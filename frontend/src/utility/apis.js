@@ -5,10 +5,13 @@ export const APIS = {
   },
   customer: {
     create: 'customer/create',
+    update: 'customer/update',
     list: 'customer/get-all-enq',
     listCustomer: 'customer/all',
     createFeedback: 'customer/create-feedback',
     listFeedback: 'customer/get-all-feedback',
+    search: 'customer/search',
+    dashboard: 'customer/dashboard',
   },
   payments: {
     create: 'payments/create',
