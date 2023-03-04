@@ -30,6 +30,9 @@ export const customerApi = createApi({
     getAllCustomer: builder.query({
       query: () => ({ url: APIS.customer.listCustomer }),
     }),
+    listAllCustomer: builder.query({
+      query: () => ({ url: APIS.customer.allCustomer }),
+    }),
     createCustomerFeedback: builder.mutation({
       query: (payload) => ({ url: APIS.customer.createFeedback, method: 'POST', body: payload }),
     }),
@@ -50,6 +53,7 @@ export const {
   useUpdateCustomerEnquiryMutation,
   useGetAllEnquiryQuery,
   useGetAllCustomerQuery,
+  useListAllCustomerQuery,
   useCreateCustomerFeedbackMutation,
   useGetAllFeedbackQuery,
   useSearchCustomerQuery,

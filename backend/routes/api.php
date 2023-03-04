@@ -32,6 +32,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::patch('/customer/update', [CustEnqController::class, 'update']);
     Route::get('/customer/get-all-enq', [CustEnqController::class, 'list']);
     Route::get('/customer/all', [CustEnqController::class, 'listCustomer']);
+    Route::get('/customer/list-all', [CustEnqController::class, 'listAllCustomer']);
     Route::post('/customer/create-feedback', [CustFeedbackController::class, 'add']);
     Route::get('/customer/get-all-feedback', [CustFeedbackController::class, 'list']);
     Route::post('/payments/create', [PaymentsController::class, 'add']);

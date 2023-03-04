@@ -8,6 +8,7 @@ export const APIS = {
     update: 'customer/update',
     list: 'customer/get-all-enq',
     listCustomer: 'customer/all',
+    allCustomer: 'customer/list-all',
     createFeedback: 'customer/create-feedback',
     listFeedback: 'customer/get-all-feedback',
     search: 'customer/search',

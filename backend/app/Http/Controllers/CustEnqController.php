@@ -109,6 +109,16 @@ class CustEnqController extends BaseController
      */
     public function listCustomer()
     {
+        $customer = CustomerEnquiry::select('id as value', 'name as label')->where(["finished" => 0])->orderBy("name", "asc")->get();
+
+        return response()->json($customer, 200);
+    }
+
+    /**
+     * List all customers.
+     */
+    public function listAllCustomer()
+    {
         $customer = CustomerEnquiry::select('id as value', 'name as label')->orderBy("name", "asc")->get();
 
         return response()->json($customer, 200);

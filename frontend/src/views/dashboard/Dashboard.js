@@ -5,7 +5,7 @@ import { useDashboardDataQuery } from 'src/redux/services/customer'
 import Spinner from 'src/components/Spinner'
 
 const Dashboard = () => {
-  const { data, isFetching } = useDashboardDataQuery({ refetchOnMountOrArgChange: true })
+  const { data, isFetching } = useDashboardDataQuery({}, { refetchOnMountOrArgChange: true })
 
   return (
     <>

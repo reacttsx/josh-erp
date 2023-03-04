@@ -12,7 +12,7 @@ import { cilLockLocked, cilSettings, cilUser } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 import PropTypes from 'prop-types'
 
-import avatar8 from './../../assets/images/avatars/8.jpg'
+import avatar8 from './../../assets/images/avatars/user.png'
 
 const AppHeaderDropdown = ({ onLogout }) => {
   return (

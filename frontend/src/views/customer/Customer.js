@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 
 import { CCard, CCardBody, CCardHeader, CCol, CFormLabel, CRow } from '@coreui/react'
-import { useGetAllCustomerQuery, useSearchCustomerQuery } from 'src/redux/services/customer'
+import { useListAllCustomerQuery, useSearchCustomerQuery } from 'src/redux/services/customer'
 import Select from 'react-select'
 import Spinner from 'src/components/Spinner'
 
 const Customer = () => {
   const [customerId, setCustomerId] = useState(0)
-  const { data } = useGetAllCustomerQuery()
+  const { data } = useListAllCustomerQuery({}, { refetchOnMountOrArgChange: true })
   const searchData = useSearchCustomerQuery(customerId, { refetchOnMountOrArgChange: true })
 
   return (

@@ -23,7 +23,7 @@ import { useCreatePurchaseMutation } from 'src/redux/services/purchase'
 
 const CreateModal = ({ visible, setVisible, reloadData }) => {
   const [createPurchase, { isLoading, isError, isSuccess, error }] = useCreatePurchaseMutation()
-  const { data } = useGetAllCustomerQuery()
+  const { data } = useGetAllCustomerQuery({}, { refetchOnMountOrArgChange: true })
 
   const PurchaseSchema = Yup.object().shape({
     customer_id: Yup.number().required('Required'),

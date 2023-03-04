@@ -23,7 +23,7 @@ import { useGetAllCustomerQuery } from 'src/redux/services/customer'
 
 const CreateModal = ({ visible, setVisible, reloadData }) => {
   const [createPayments, { isLoading, isError, isSuccess, error }] = useCreatePaymentsMutation()
-  const { data } = useGetAllCustomerQuery()
+  const { data } = useGetAllCustomerQuery({}, { refetchOnMountOrArgChange: true })
 
   const PaymentsSchema = Yup.object().shape({
     customer_id: Yup.number().required('Required'),

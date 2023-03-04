@@ -23,7 +23,7 @@ import { useCreateAdvanceMutation } from 'src/redux/services/advance'
 
 const CreateModal = ({ visible, setVisible, reloadData }) => {
   const [createAdvance, { isLoading, isError, isSuccess, error }] = useCreateAdvanceMutation()
-  const { data } = useGetAllCustomerQuery()
+  const { data } = useGetAllCustomerQuery({}, { refetchOnMountOrArgChange: true })
 
   const AdvanceSchema = Yup.object().shape({
     customer_id: Yup.number().required('Required'),

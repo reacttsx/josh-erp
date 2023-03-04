@@ -48,7 +48,7 @@ const AppHeader = () => {
             <CIcon icon={cilMenu} size="lg" />
           </CHeaderToggler>
           <CHeaderBrand className="mx-auto d-md-none" to="/">
-            <h3>JOSH TRAVLES</h3>
+            <h3>Adagio CRM</h3>
           </CHeaderBrand>
           <CHeaderNav className="ms-3">
             <AppHeaderDropdown onLogout={onLogout} />
