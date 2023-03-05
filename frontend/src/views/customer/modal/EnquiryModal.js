@@ -198,8 +198,9 @@ const EnquiryModal = ({ visible, setVisible, reloadData }) => {
                 label="Remarks"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.remarks}
-              />
+              >
+                {formik.values.remarks}
+              </CFormTextarea>
               {formik.errors.remarks && (
                 <div className="invalid-feedback d-block">{formik.errors.remarks}</div>
               )}

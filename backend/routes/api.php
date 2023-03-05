@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdvanceController;
 use App\Http\Controllers\CustEnqController;
@@ -43,4 +44,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/purchase/all', [PurchaseController::class, 'list']);
     Route::get('/customer/search/{id}', [CustomerController::class, 'search']);
     Route::get('/customer/dashboard', [CustomerController::class, 'dashboard']);
+    Route::post('/accounts/create', [AccountsController::class, 'add']);
+    Route::get('/accounts/all', [AccountsController::class, 'list']);
 });

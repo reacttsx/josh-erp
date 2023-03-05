@@ -14,8 +14,7 @@ class CustFeedbackController extends BaseController
     public function add(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'job_no' => 'required|max:80',
+            'customer_id' => 'required',
             'dod' => 'required|date',
             'first' => 'required|string|max:255',
             'first_status' => 'required|string|max:255',
@@ -31,8 +30,7 @@ class CustFeedbackController extends BaseController
 
         if ($validator->passes()) {
             $customer = CustomerFeedback::create([
-                'name' => $request->name,
-                'job_no' => $request->job_no,
+                'customer_id' => $request->customer_id,
                 'dod' => $request->dod,
                 'first_call' => $request->first,
                 'first_call_status' => $request->first_status,
@@ -54,7 +52,7 @@ class CustFeedbackController extends BaseController
      */
     public function list()
     {
-        $customer = CustomerFeedback::orderBy("id", "desc")->paginate(20);
+        $customer = CustomerFeedback::select('customer_feedback.*', 'customer_enquiry.name')->join('customer_enquiry', 'customer_enquiry.id', '=', 'customer_feedback.customer_id')->orderBy("id", "desc")->paginate(20);
 
         return response()->json($customer, 200);
     }

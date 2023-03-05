@@ -26,4 +26,8 @@ export const APIS = {
     create: 'purchase/create',
     listAll: 'purchase/all',
   },
+  accounts: {
+    create: 'accounts/create',
+    listAll: 'accounts/all',
+  },
 }

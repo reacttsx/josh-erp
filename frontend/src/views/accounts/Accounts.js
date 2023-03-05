@@ -11,13 +11,13 @@ import {
   CSpinner,
 } from '@coreui/react'
 import { Table } from 'src/components'
-import FeedbackModal from './modal/FeedbackModal'
-import { useGetAllFeedbackQuery } from 'src/redux/services/customer'
+import CreateModal from './modal/CreateModal'
+import { useGetAllAccountsQuery } from 'src/redux/services/accounts'
 
-const CustomerFeedback = () => {
+const Accounts = () => {
   const [modal, setModal] = useState(false)
   const [page, setPage] = useState(1)
-  const { data, refetch, isLoading } = useGetAllFeedbackQuery(
+  const { data, refetch, isLoading } = useGetAllAccountsQuery(
     { page: page },
     { refetchOnMountOrArgChange: true },
   )
@@ -30,43 +30,33 @@ const CustomerFeedback = () => {
       },
     },
     {
-      Header: 'Customer name',
-      accessor: 'name',
+      Header: 'Date',
+      accessor: 'acc_date',
       disableFilters: true,
     },
     {
-      Header: 'D.o.D',
-      accessor: 'dod',
+      Header: 'Total income',
+      accessor: 'total_income',
       disableFilters: true,
     },
     {
-      Header: 'First call',
-      accessor: 'first_call',
+      Header: 'Store expense',
+      accessor: 'store_expense',
       disableFilters: true,
     },
     {
-      Header: 'Feedback',
-      accessor: 'first_call_status',
+      Header: 'Salary expense',
+      accessor: 'salary_expense',
       disableFilters: true,
     },
     {
-      Header: 'Second call',
-      accessor: 'second_call',
+      Header: 'Other expense',
+      accessor: 'other_expense',
       disableFilters: true,
     },
     {
-      Header: 'Feedback',
-      accessor: 'second_call_status',
-      disableFilters: true,
-    },
-    {
-      Header: 'Third call',
-      accessor: 'third_call',
-      disableFilters: true,
-    },
-    {
-      Header: 'Feedback',
-      accessor: 'third_call_status',
+      Header: 'Remarks',
+      accessor: 'remarks',
       disableFilters: true,
     },
   ]
@@ -84,7 +74,7 @@ const CustomerFeedback = () => {
       <CRow>
         <CCol xs>
           <CCard className="mb-4">
-            <CCardHeader>Customer Feedback</CCardHeader>
+            <CCardHeader>Accounts</CCardHeader>
             <CCardBody>
               <CRow>
                 <CCol xs={12}>
@@ -108,15 +98,15 @@ const CustomerFeedback = () => {
             </CCardBody>
             <CCardFooter>
               <CButton type="button" size="sm" onClick={() => setModal(true)}>
-                Create Customer Enquiry
+                Create Account Details
               </CButton>
             </CCardFooter>
           </CCard>
         </CCol>
       </CRow>
-      {modal && <FeedbackModal visible={modal} setVisible={setModal} reloadData={reloadData} />}
+      {modal && <CreateModal visible={modal} setVisible={setModal} reloadData={reloadData} />}
     </>
   )
 }
 
-export default CustomerFeedback
+export default Accounts

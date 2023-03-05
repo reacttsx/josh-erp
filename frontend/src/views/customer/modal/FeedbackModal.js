@@ -5,6 +5,7 @@ import {
   CCol,
   CForm,
   CFormInput,
+  CFormLabel,
   CModal,
   CModalBody,
   CModalFooter,
@@ -16,15 +17,19 @@ import PropTypes from 'prop-types'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import { toast } from 'react-toastify'
-import { useCreateCustomerFeedbackMutation } from 'src/redux/services/customer'
+import Select from 'react-select'
+import {
+  useCreateCustomerFeedbackMutation,
+  useListAllCustomerQuery,
+} from 'src/redux/services/customer'
 
 const FeedbackModal = ({ visible, setVisible, reloadData }) => {
   const [createCustomerEnquiry, { isLoading, isError, isSuccess, error }] =
     useCreateCustomerFeedbackMutation()
+  const { data } = useListAllCustomerQuery({}, { refetchOnMountOrArgChange: true })
 
   const FeedbackSchema = Yup.object().shape({
-    name: Yup.string().required('Required'),
-    job_no: Yup.string().required('Required'),
+    customer_id: Yup.number().required('Required'),
     dod: Yup.date().required('Required'),
     first: Yup.string().required('Required'),
     first_status: Yup.string().required('Required'),
@@ -35,8 +40,7 @@ const FeedbackModal = ({ visible, setVisible, reloadData }) => {
   })
   const formik = useFormik({
     initialValues: {
-      name: '',
-      job_no: '',
+      customer_id: '',
       dod: '',
       first: '',
       first_status: '',
@@ -78,30 +82,20 @@ const FeedbackModal = ({ visible, setVisible, reloadData }) => {
         <CModalBody>
           <div className="row g-3">
             <CCol md={6}>
-              <CFormInput
-                name="name"
-                label="Customer name"
-                onChange={formik.handleChange}
+              <CFormLabel>Customer</CFormLabel>
+              <Select
+                name="customer_id"
+                options={data}
+                onChange={(selectedOption) =>
+                  formik.setFieldValue('customer_id', selectedOption.value)
+                }
                 onBlur={formik.handleBlur}
-                value={formik.values.name}
               />
-              {formik.errors.name && (
-                <div className="invalid-feedback d-block">{formik.errors.name}</div>
+              {formik.errors.customer_id && (
+                <div className="invalid-feedback d-block">{formik.errors.customer_id}</div>
               )}
             </CCol>
-            <CCol md={6}>
-              <CFormInput
-                name="job_no"
-                label="Job No."
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.job_no}
-              />
-              {formik.errors.job_no && (
-                <div className="invalid-feedback d-block">{formik.errors.job_no}</div>
-              )}
-            </CCol>
-            <CCol xs={12}>
+            <CCol xs={6}>
               <CFormInput
                 type="date"
                 name="dod"
