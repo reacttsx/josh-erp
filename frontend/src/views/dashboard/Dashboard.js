@@ -5,11 +5,14 @@ import { useDashboardDataQuery } from 'src/redux/services/customer'
 import Spinner from 'src/components/Spinner'
 
 const Dashboard = () => {
-  const { data, isFetching } = useDashboardDataQuery({}, { refetchOnMountOrArgChange: true })
+  const { data, isFetching, isLoading } = useDashboardDataQuery(
+    {},
+    { refetchOnMountOrArgChange: true },
+  )
 
   return (
     <>
-      {isFetching && <Spinner />}
+      {(isLoading || isFetching) && <Spinner />}
       <CRow>
         <CCol xs>
           <CCard className="mb-4">

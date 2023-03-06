@@ -41,9 +41,15 @@ class AccountsController extends BaseController
     /**
      * List all accounts details.
      */
-    public function list()
+    public function list(Request $request)
     {
-        $customer = Accounts::orderBy("id", "desc")->paginate(20);
+        if ($request->input('from') && $request->input('to')) {
+            $customer = Accounts::whereBetween('acc_date', [$request->input('from'), $request->input('to')])->orderBy("id", "desc")->paginate(20);
+        } else if ($request->input('from')) {
+            $customer = Accounts::where('acc_date', '=', $request->input('from'))->orderBy("id", "desc")->paginate(20);
+        } else {
+            $customer = Accounts::orderBy("id", "desc")->paginate(20);
+        }
 
         return response()->json($customer, 200);
     }

@@ -18,7 +18,7 @@ export const accountsApi = createApi({
       query: (payload) => ({ url: APIS.accounts.create, method: 'POST', body: payload }),
     }),
     getAllAccounts: builder.query({
-      query: ({ page }) => ({ url: APIS.accounts.listAll, params: { page } }),
+      query: ({ page, from, to }) => ({ url: APIS.accounts.listAll, params: { page, from, to } }),
     }),
   }),
 })

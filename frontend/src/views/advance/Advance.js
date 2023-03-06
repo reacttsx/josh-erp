@@ -17,7 +17,7 @@ import { useGetAllAdvanceQuery } from 'src/redux/services/advance'
 const Advance = () => {
   const [modal, setModal] = useState(false)
   const [page, setPage] = useState(1)
-  const { data, refetch, isLoading } = useGetAllAdvanceQuery(
+  const { data, refetch, isLoading, isFetching } = useGetAllAdvanceQuery(
     { page: page },
     { refetchOnMountOrArgChange: true },
   )
@@ -58,17 +58,17 @@ const Advance = () => {
             <CCardBody>
               <CRow>
                 <CCol xs={12}>
-                  {isLoading ? (
+                  {isLoading || isFetching ? (
                     <CSpinner size="sm" color="primary" className="mb-5" />
                   ) : (
                     <Table
-                      list={data.data}
+                      list={data?.data}
                       columns={columns}
-                      pageOffset={data.current_page - 1}
-                      page={data.current_page}
-                      pageCount={data.last_page}
+                      pageOffset={data?.current_page - 1}
+                      page={data?.current_page}
+                      pageCount={data?.last_page}
                       fetchDataFunction={fetchData}
-                      isLoading={isLoading}
+                      isLoading={isLoading || isFetching}
                       pageLimit={20}
                       enablePagination={true}
                     />

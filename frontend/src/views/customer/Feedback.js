@@ -17,7 +17,7 @@ import { useGetAllFeedbackQuery } from 'src/redux/services/customer'
 const CustomerFeedback = () => {
   const [modal, setModal] = useState(false)
   const [page, setPage] = useState(1)
-  const { data, refetch, isLoading } = useGetAllFeedbackQuery(
+  const { data, refetch, isLoading, isFetching } = useGetAllFeedbackQuery(
     { page: page },
     { refetchOnMountOrArgChange: true },
   )
@@ -92,13 +92,13 @@ const CustomerFeedback = () => {
                     <CSpinner size="sm" color="primary" className="mb-5" />
                   ) : (
                     <Table
-                      list={data.data}
+                      list={data?.data}
                       columns={columns}
-                      pageOffset={data.current_page - 1}
-                      page={data.current_page}
-                      pageCount={data.last_page}
+                      pageOffset={data?.current_page - 1}
+                      page={data?.current_page}
+                      pageCount={data?.last_page}
                       fetchDataFunction={fetchData}
-                      isLoading={isLoading}
+                      isLoading={isLoading || isFetching}
                       pageLimit={20}
                       enablePagination={true}
                     />
@@ -108,7 +108,7 @@ const CustomerFeedback = () => {
             </CCardBody>
             <CCardFooter>
               <CButton type="button" size="sm" onClick={() => setModal(true)}>
-                Create Customer Enquiry
+                Create Customer Feedback
               </CButton>
             </CCardFooter>
           </CCard>

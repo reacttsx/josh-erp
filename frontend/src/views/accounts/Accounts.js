@@ -7,6 +7,7 @@ import {
   CCardFooter,
   CCardHeader,
   CCol,
+  CFormInput,
   CRow,
   CSpinner,
 } from '@coreui/react'
@@ -17,8 +18,10 @@ import { useGetAllAccountsQuery } from 'src/redux/services/accounts'
 const Accounts = () => {
   const [modal, setModal] = useState(false)
   const [page, setPage] = useState(1)
-  const { data, refetch, isLoading } = useGetAllAccountsQuery(
-    { page: page },
+  const [from, setFrom] = useState('')
+  const [to, setTo] = useState('')
+  const { data, refetch, isLoading, isFetching } = useGetAllAccountsQuery(
+    { page: page, from: from, to: to },
     { refetchOnMountOrArgChange: true },
   )
   const columns = [
@@ -76,19 +79,39 @@ const Accounts = () => {
           <CCard className="mb-4">
             <CCardHeader>Accounts</CCardHeader>
             <CCardBody>
+              <CRow className="mb-4 justify-content-center">
+                <CCol md={3}>
+                  <CFormInput
+                    type="date"
+                    name="from"
+                    label="From date"
+                    value={from}
+                    onChange={(e) => setFrom(e.target.value)}
+                  />
+                </CCol>
+                <CCol md={3}>
+                  <CFormInput
+                    type="date"
+                    name="to"
+                    label="To date"
+                    value={to}
+                    onChange={(e) => setTo(e.target.value)}
+                  />
+                </CCol>
+              </CRow>
               <CRow>
                 <CCol xs={12}>
-                  {isLoading ? (
+                  {isLoading || isFetching ? (
                     <CSpinner size="sm" color="primary" className="mb-5" />
                   ) : (
                     <Table
-                      list={data.data}
+                      list={data?.data}
                       columns={columns}
-                      pageOffset={data.current_page - 1}
-                      page={data.current_page}
-                      pageCount={data.last_page}
+                      pageOffset={data?.current_page - 1}
+                      page={data?.current_page}
+                      pageCount={data?.last_page}
                       fetchDataFunction={fetchData}
-                      isLoading={isLoading}
+                      isLoading={isLoading || isFetching}
                       pageLimit={20}
                       enablePagination={true}
                     />
