@@ -18,7 +18,7 @@ export const advanceApi = createApi({
       query: (payload) => ({ url: APIS.advance.create, method: 'POST', body: payload }),
     }),
     getAllAdvance: builder.query({
-      query: ({ page }) => ({ url: APIS.advance.listAll, params: { page } }),
+      query: ({ page, limit }) => ({ url: APIS.advance.listAll, params: { page, limit } }),
     }),
   }),
 })

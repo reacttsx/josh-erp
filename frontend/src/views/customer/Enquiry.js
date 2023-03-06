@@ -22,14 +22,16 @@ const CustomerEnquiry = () => {
   const [modal, setModal] = useState(false)
   const [modalEdit, setModalEdit] = useState(false)
   const [page, setPage] = useState(1)
+  const [limit, setLimit] = useState(20)
   const [editData, setEditData] = useState({})
   const { data, refetch, isLoading, isFetching } = useGetAllEnquiryQuery(
-    { page: page },
+    { page: page, limit: limit },
     { refetchOnMountOrArgChange: true },
   )
   const columns = [
     {
       Header: '#',
+      Footer: '#',
       id: 'row',
       Cell: (row) => {
         return <div>{parseInt(row.row.id) + 1}</div>
@@ -37,36 +39,43 @@ const CustomerEnquiry = () => {
     },
     {
       Header: 'Customer name',
+      Footer: 'Customer name',
       accessor: 'name',
       disableFilters: true,
     },
     {
       Header: 'Contact',
+      Footer: 'Contact',
       accessor: 'contact',
       disableFilters: true,
     },
     {
       Header: 'E.D.o.D',
+      Footer: 'E.D.o.D',
       accessor: 'edod',
       disableFilters: true,
     },
     {
       Header: 'Mode of enquiry',
+      Footer: 'Mode of enquiry',
       accessor: 'mode_of_enq',
       disableFilters: true,
     },
     {
       Header: 'Dealer',
+      Footer: 'Dealer',
       accessor: 'dealer',
       disableFilters: true,
     },
     {
       Header: 'Sales man',
+      Footer: 'Sales man',
       accessor: 'sales_man',
       disableFilters: true,
     },
     {
       Header: 'First call',
+      Footer: 'First call',
       accessor: 'first_call',
       disableFilters: true,
       Cell: (row) => {
@@ -75,6 +84,7 @@ const CustomerEnquiry = () => {
     },
     {
       Header: 'Status',
+      Footer: 'Status',
       accessor: 'first_call_status',
       disableFilters: true,
       Cell: (row) => {
@@ -83,6 +93,7 @@ const CustomerEnquiry = () => {
     },
     {
       Header: 'Second call',
+      Footer: 'Second call',
       accessor: 'second_call',
       disableFilters: true,
       Cell: (row) => {
@@ -91,6 +102,7 @@ const CustomerEnquiry = () => {
     },
     {
       Header: 'Status',
+      Footer: 'Status',
       accessor: 'second_call_status',
       disableFilters: true,
       Cell: (row) => {
@@ -99,11 +111,13 @@ const CustomerEnquiry = () => {
     },
     {
       Header: 'Remarks',
+      Footer: 'Remarks',
       accessor: 'remarks',
       disableFilters: true,
     },
     {
       Header: 'Finished',
+      Footer: 'Finished',
       accessor: 'finished',
       disableFilters: true,
       Cell: (row) => {
@@ -120,6 +134,7 @@ const CustomerEnquiry = () => {
     },
     {
       Header: 'Completed',
+      Footer: 'Completed',
       accessor: 'completed',
       disableFilters: true,
       Cell: (row) => {
@@ -136,6 +151,7 @@ const CustomerEnquiry = () => {
     },
     {
       Header: 'Edit',
+      Footer: 'Edit',
       id: 'edit',
       Cell: (row) => {
         return (
@@ -149,8 +165,9 @@ const CustomerEnquiry = () => {
     },
   ]
 
-  const fetchData = (page) => {
+  const fetchData = (page, limit) => {
     setPage(page)
+    setLimit(limit === 'All' ? 0 : limit)
   }
 
   const reloadData = () => {
@@ -182,7 +199,7 @@ const CustomerEnquiry = () => {
                       pageCount={data?.last_page}
                       fetchDataFunction={fetchData}
                       isLoading={isLoading || isFetching}
-                      pageLimit={20}
+                      pageLimit={limit}
                       enablePagination={true}
                     />
                   )}

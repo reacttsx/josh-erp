@@ -142,7 +142,7 @@ const Table = ({
 
                     return (
                       <th {...column.getFooterProps({ ...customFooterTdProps })} key={`index${j}`}>
-                        {column.render('Header')}
+                        {column.render('Footer')}
                       </th>
                     )
                   })}
@@ -234,12 +234,15 @@ const Table = ({
               <div className="d-inline">
                 <select
                   className="form-select cs-select page-select form-control me-3 my-2"
-                  value={pageLimit}
+                  value={pageLimit === 0 ? 'All' : pageLimit}
                   onChange={(event) => {
-                    fetchDataFunction(0, parseInt(event.target.value))
+                    fetchDataFunction(
+                      0,
+                      parseInt(event.target.value === 'All' ? 0 : event.target.value),
+                    )
                   }}
                 >
-                  {[10, 20, 30, 40, 50, 100].map((item) => (
+                  {[10, 20, 30, 40, 50, 100, 'All'].map((item) => (
                     <option key={`Pagination${item}`} value={item}>
                       {item}
                     </option>

@@ -18,7 +18,7 @@ export const purchaseApi = createApi({
       query: (payload) => ({ url: APIS.purchase.create, method: 'POST', body: payload }),
     }),
     getAllPurchase: builder.query({
-      query: ({ page }) => ({ url: APIS.purchase.listAll, params: { page } }),
+      query: ({ page, limit }) => ({ url: APIS.purchase.listAll, params: { page, limit } }),
     }),
   }),
 })

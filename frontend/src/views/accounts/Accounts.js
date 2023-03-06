@@ -20,8 +20,9 @@ const Accounts = () => {
   const [page, setPage] = useState(1)
   const [from, setFrom] = useState('')
   const [to, setTo] = useState('')
+  const [limit, setLimit] = useState(20)
   const { data, refetch, isLoading, isFetching } = useGetAllAccountsQuery(
-    { page: page, from: from, to: to },
+    { page: page, limit: limit, from: from, to: to },
     { refetchOnMountOrArgChange: true },
   )
   const columns = [
@@ -31,41 +32,67 @@ const Accounts = () => {
       Cell: (row) => {
         return <div>{parseInt(row.row.id) + 1}</div>
       },
+      Footer: '#',
     },
     {
       Header: 'Date',
       accessor: 'acc_date',
       disableFilters: true,
+      Footer: 'Date',
     },
     {
       Header: 'Total income',
       accessor: 'total_income',
       disableFilters: true,
+      Footer: (row) => {
+        const check = row.data.reduce((a, b) => parseInt(a.total_income) + parseInt(b.total_income))
+        return check.total_income ? check.total_income : check
+      },
     },
     {
       Header: 'Store expense',
       accessor: 'store_expense',
       disableFilters: true,
+      Footer: (row) => {
+        const check = row.data.reduce(
+          (a, b) => parseInt(a.store_expense) + parseInt(b.store_expense),
+        )
+        return check.store_expense ? check.store_expense : check
+      },
     },
     {
       Header: 'Salary expense',
       accessor: 'salary_expense',
       disableFilters: true,
+      Footer: (row) => {
+        const check = row.data.reduce(
+          (a, b) => parseInt(a.salary_expense) + parseInt(b.salary_expense),
+        )
+        return check.salary_expense ? check.salary_expense : check
+      },
     },
     {
       Header: 'Other expense',
       accessor: 'other_expense',
       disableFilters: true,
+      Footer: (row) => {
+        const check = row.data.reduce(
+          (a, b) => parseInt(a.other_expense) + parseInt(b.other_expense),
+        )
+        return check.other_expense ? check.other_expense : check
+      },
     },
     {
       Header: 'Remarks',
       accessor: 'remarks',
       disableFilters: true,
+      Footer: 'Remarks',
     },
   ]
 
-  const fetchData = (page) => {
+  const fetchData = (page, limit) => {
     setPage(page)
+    setLimit(limit === 'All' ? 0 : limit)
   }
 
   const reloadData = () => {
@@ -112,7 +139,7 @@ const Accounts = () => {
                       pageCount={data?.last_page}
                       fetchDataFunction={fetchData}
                       isLoading={isLoading || isFetching}
-                      pageLimit={20}
+                      pageLimit={limit}
                       enablePagination={true}
                     />
                   )}

@@ -17,13 +17,15 @@ import { useGetAllPurchaseQuery } from 'src/redux/services/purchase'
 const Purchase = () => {
   const [modal, setModal] = useState(false)
   const [page, setPage] = useState(1)
+  const [limit, setLimit] = useState(20)
   const { data, refetch, isLoading, isFetching } = useGetAllPurchaseQuery(
-    { page: page },
+    { page: page, limit: limit },
     { refetchOnMountOrArgChange: true },
   )
   const columns = [
     {
       Header: '#',
+      Footer: '#',
       id: 'row',
       Cell: (row) => {
         return <div>{parseInt(row.row.id) + 1}</div>
@@ -31,18 +33,21 @@ const Purchase = () => {
     },
     {
       Header: 'Customer',
+      Footer: 'Customer',
       accessor: 'name',
       disableFilters: true,
     },
     {
       Header: 'Amount',
+      Footer: 'Amount',
       accessor: 'amount',
       disableFilters: true,
     },
   ]
 
-  const fetchData = (page) => {
+  const fetchData = (page, limit) => {
     setPage(page)
+    setLimit(limit === 'All' ? 0 : limit)
   }
 
   const reloadData = () => {
@@ -69,7 +74,7 @@ const Purchase = () => {
                       pageCount={data?.last_page}
                       fetchDataFunction={fetchData}
                       isLoading={isLoading || isFetching}
-                      pageLimit={20}
+                      pageLimit={limit}
                       enablePagination={true}
                     />
                   )}

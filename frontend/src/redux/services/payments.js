@@ -18,7 +18,7 @@ export const paymentsApi = createApi({
       query: (payload) => ({ url: APIS.payments.create, method: 'POST', body: payload }),
     }),
     getAllPayments: builder.query({
-      query: ({ page }) => ({ url: APIS.payments.listAll, params: { page } }),
+      query: ({ page, limit }) => ({ url: APIS.payments.listAll, params: { page, limit } }),
     }),
   }),
 })

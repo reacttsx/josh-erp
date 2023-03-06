@@ -25,7 +25,7 @@ export const customerApi = createApi({
       }),
     }),
     getAllEnquiry: builder.query({
-      query: ({ page }) => ({ url: APIS.customer.list, params: { page } }),
+      query: ({ page, limit }) => ({ url: APIS.customer.list, params: { page, limit } }),
     }),
     getAllCustomer: builder.query({
       query: () => ({ url: APIS.customer.listCustomer }),
@@ -37,7 +37,7 @@ export const customerApi = createApi({
       query: (payload) => ({ url: APIS.customer.createFeedback, method: 'POST', body: payload }),
     }),
     getAllFeedback: builder.query({
-      query: ({ page }) => ({ url: APIS.customer.listFeedback, params: { page } }),
+      query: ({ page, limit }) => ({ url: APIS.customer.listFeedback, params: { page, limit } }),
     }),
     searchCustomer: builder.query({
       query: (customerId) => ({ url: `${APIS.customer.search}/${customerId}` }),

@@ -17,13 +17,15 @@ import { useGetAllFeedbackQuery } from 'src/redux/services/customer'
 const CustomerFeedback = () => {
   const [modal, setModal] = useState(false)
   const [page, setPage] = useState(1)
+  const [limit, setLimit] = useState(20)
   const { data, refetch, isLoading, isFetching } = useGetAllFeedbackQuery(
-    { page: page },
+    { page: page, limit: limit },
     { refetchOnMountOrArgChange: true },
   )
   const columns = [
     {
       Header: '#',
+      Footer: '#',
       id: 'row',
       Cell: (row) => {
         return <div>{parseInt(row.row.id) + 1}</div>
@@ -31,48 +33,57 @@ const CustomerFeedback = () => {
     },
     {
       Header: 'Customer name',
+      Footer: 'Customer name',
       accessor: 'name',
       disableFilters: true,
     },
     {
       Header: 'D.o.D',
+      Footer: 'D.o.D',
       accessor: 'dod',
       disableFilters: true,
     },
     {
       Header: 'First call',
+      Footer: 'First call',
       accessor: 'first_call',
       disableFilters: true,
     },
     {
       Header: 'Feedback',
+      Footer: 'Feedback',
       accessor: 'first_call_status',
       disableFilters: true,
     },
     {
       Header: 'Second call',
+      Footer: 'Second call',
       accessor: 'second_call',
       disableFilters: true,
     },
     {
       Header: 'Feedback',
+      Footer: 'Feedback',
       accessor: 'second_call_status',
       disableFilters: true,
     },
     {
       Header: 'Third call',
+      Footer: 'Third call',
       accessor: 'third_call',
       disableFilters: true,
     },
     {
       Header: 'Feedback',
+      Footer: 'Feedback',
       accessor: 'third_call_status',
       disableFilters: true,
     },
   ]
 
-  const fetchData = (page) => {
+  const fetchData = (page, limit) => {
     setPage(page)
+    setLimit(limit === 'All' ? 0 : limit)
   }
 
   const reloadData = () => {
@@ -99,7 +110,7 @@ const CustomerFeedback = () => {
                       pageCount={data?.last_page}
                       fetchDataFunction={fetchData}
                       isLoading={isLoading || isFetching}
-                      pageLimit={20}
+                      pageLimit={limit}
                       enablePagination={true}
                     />
                   )}
